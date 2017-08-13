@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
 import Actions from '../actions'
+import Styles from './MainContainer.style.js'
 
 class MainContainer extends Component {
   // 构造函数，在创建组件的时候调用一次
@@ -57,32 +66,44 @@ class MainContainer extends Component {
 
   }
 
+  renderObject(data) {
+    var cols = [];
+    for (var key in data){
+      // console.log(arr[key]);
+      let value = key + "[" + data[key] + "]";
+      let item = (<TableRowColumn>{value}</TableRowColumn>);
+      cols.push(item);
+    }
+    return (<TableRow striped={true} rowNumber={1} children={<div>asdf;</div>}>{cols}</TableRow>);
+  }
+
   // render是一个React组件所必不可少的核心函数（上面的其它函数都不是必须的）。
   // 记住，不要在render里面修改state
   render() {
     const {app} = this.props;
     return (
-      <AppBar
-        title={this.renderTitle()}
-        iconElementLeft={<div></div>}
-        iconElementRight={<div></div>}
-        titleStyle= {Styles.Title}
-        iconClassNameRight="muidocs-icon-navigation-expand-more"
-      />
+      <div>
+        <AppBar
+          title={this.renderTitle()}
+          iconElementLeft={<div></div>}
+          iconElementRight={<div></div>}
+          titleStyle= {Styles.Title}
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <Table>
+          <TableBody displayRowCheckbox={false}>
+            {this.renderObject(this.props.app.jsonFiles)}
+          </TableBody>
+        </Table>
+      </div>
     );
   }
 
   renderTitle() {
     const {app} = this.props;
-    return (<span>{app.datas.title}</span>);
+    return (<span>{app.appInfo.title}</span>);
   }
 }
-
-const Styles = {
-  Title: {
-    textAlign: "center"
-  }
-};
 
 export default connect(
   state => ({

@@ -12,7 +12,8 @@ class DataService {
   }
 
   Load(path) {
-    return { data:{title:"Json Editor"}};
+    var data = require("./package.json")
+    return { data:data};
   }
 }
 

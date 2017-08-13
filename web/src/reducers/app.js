@@ -5,7 +5,10 @@ import * as ActionTypes from '../constants/ActionTypes';
 import * as actions from '../actions'
 
 const initialState = {
-  datas: {},
+  jsonFiles: {},
+  appInfo: {
+    title:'JSON EDITOR'
+  }
 };
 
 const app = (state = initialState, action) => {
@@ -15,7 +18,7 @@ const app = (state = initialState, action) => {
   }
   switch(action.type) {
     case ActionTypes.LOAD:
-      return Object.assign({}, state, {datas:result.data});
+      return Object.assign({}, state, {jsonFiles:result.data});
   }
   return Object.assign({}, state);
 }
