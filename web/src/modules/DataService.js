@@ -17,4 +17,5 @@ class DataService {
   }
 }
 
+
 module.exports = new DataService();

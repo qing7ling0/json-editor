@@ -3,6 +3,12 @@ import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {
+  FlatButton,
+  TextField,
+  SelectField,
+  MenuItem,
+} from 'material-ui';
+import {
   Table,
   TableBody,
   TableHeader,
@@ -13,6 +19,7 @@ import {
 
 import Actions from '../actions'
 import Styles from './MainContainer.style.js'
+import Utils from '../utils/utils'
 
 class MainContainer extends Component {
   // 构造函数，在创建组件的时候调用一次
@@ -66,15 +73,61 @@ class MainContainer extends Component {
 
   }
 
+  handleChange = (event, index, value) => this.setState({value});
+
+  renderTableRowColumn(key, value, data) {
+    let item = null;
+    if (Utils.IsArray(value)) {
+      let str = key + '[' + value.length + ']';
+      item = (<FlatButton label={str} />)
+    }
+    else if (Utils.IsObject(value)) {
+      let str = key + '[+]';
+      item = (<FlatButton label={str} />)
+    }
+    else if (Utils.IsBoolean(value)) {
+      item = (<SelectField
+        floatingLabelText={key}
+        value={value}
+        fullWidth={true}
+        onChange={(event, index, value)=> {
+          data[key] = value;
+        }}
+      >
+        <MenuItem value={true} primaryText="True" />
+        <MenuItem value={false} primaryText="False" />
+      </SelectField>);
+    }
+    else{
+      item = (
+        <TextField
+          hintText=""
+          value={value}
+          floatingLabelText={key}
+          floatingLabelFixed={true}
+          fullWidth={true}
+        />);
+    }
+
+    return (<TableRowColumn>{item}</TableRowColumn>); 
+  }
+
   renderObject(data) {
     var cols = [];
     for (var key in data){
-      // console.log(arr[key]);
-      let value = key + "[" + data[key] + "]";
-      let item = (<TableRowColumn>{value}</TableRowColumn>);
+      let item = this.renderTableRowColumn(key, data[key], data);
       cols.push(item);
     }
-    return (<TableRow striped={true} rowNumber={1} children={<div>asdf;</div>}>{cols}</TableRow>);
+    return (
+      <Table selectable={false}>
+        <TableBody displayRowCheckbox={false} >
+          <TableRow striped={true} rowNumber={1} >{cols}</TableRow>
+        </TableBody>
+      </Table>);
+  }
+
+  renderArray(array) {
+
   }
 
   // render是一个React组件所必不可少的核心函数（上面的其它函数都不是必须的）。
@@ -90,11 +143,7 @@ class MainContainer extends Component {
           titleStyle= {Styles.Title}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
         />
-        <Table>
-          <TableBody displayRowCheckbox={false}>
-            {this.renderObject(this.props.app.jsonFiles)}
-          </TableBody>
-        </Table>
+        {this.renderObject(this.props.app.jsonFiles)}
       </div>
     );
   }

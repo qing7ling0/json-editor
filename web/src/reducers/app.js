@@ -1,8 +1,6 @@
 'use strict';
 
-import {handleActions} from 'redux-actions';
 import * as ActionTypes from '../constants/ActionTypes';
-import * as actions from '../actions'
 
 const initialState = {
   jsonFiles: {},
@@ -19,6 +17,8 @@ const app = (state = initialState, action) => {
   switch(action.type) {
     case ActionTypes.LOAD:
       return Object.assign({}, state, {jsonFiles:result.data});
+    default:
+    break;
   }
   return Object.assign({}, state);
 }
