@@ -1,6 +1,6 @@
 const Styles = {
   Title : {
-    textAlign: 'right'
+    textAlign: 'center'
   }
   
 }

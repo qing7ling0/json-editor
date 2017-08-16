@@ -17,6 +17,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
+import TableCell from '../components/TableCell'
 import Actions from '../actions'
 import Styles from './MainContainer.style.js'
 import Utils from '../utils/utils'
@@ -114,8 +115,8 @@ class MainContainer extends Component {
 
   renderObject(data) {
     var cols = [];
-    for (var key in data){
-      let item = this.renderTableRowColumn(key, data[key], data);
+    for (var id in data){
+      let item = <TableCell id={id} data={data} />
       cols.push(item);
     }
     return (
