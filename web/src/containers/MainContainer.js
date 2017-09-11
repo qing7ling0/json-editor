@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {
-  FlatButton,
-  TextField,
-  SelectField,
-  MenuItem,
-} from 'material-ui';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
 
-import TableCell from '../components/TableCell'
+import { 
+  Icon, 
+  Button, 
+  Label, 
+  Menu, 
+  Table,
+  Dropdown,
+  Input
+} from 'semantic-ui-react'
+
+// import TableCell from '../components/TableCell'
 import Actions from '../actions'
 import Styles from './MainContainer.style.js'
 import Utils from '../utils/utils'
@@ -80,50 +75,46 @@ class MainContainer extends Component {
     let item = null;
     if (Utils.IsArray(value)) {
       let str = key + '[' + value.length + ']';
-      item = (<FlatButton label={str} />)
+      item = (<Button label={str} />)
     }
     else if (Utils.IsObject(value)) {
       let str = key + '[+]';
-      item = (<FlatButton label={str} />)
+      item = (<Button label={str} />)
     }
     else if (Utils.IsBoolean(value)) {
-      item = (<SelectField
-        floatingLabelText={key}
-        value={value}
-        fullWidth={true}
-        onChange={(event, index, value)=> {
-          data[key] = value;
-        }}
-      >
-        <MenuItem value={true} primaryText="True" />
-        <MenuItem value={false} primaryText="False" />
-      </SelectField>);
+      item = (
+        <Dropdown 
+          placeholder={key} 
+          fluid 
+          selection 
+          options={[{text:'true', value:true}, {text:'false', value:false}]} 
+          onChange={(event, index, value)=> {
+            data[key] = value;
+          }}
+        />
+      );
     }
     else{
       item = (
-        <TextField
-          hintText=""
-          value={value}
-          floatingLabelText={key}
-          floatingLabelFixed={true}
-          fullWidth={true}
+        <Input
+          label={value}
         />);
     }
 
-    return (<TableRowColumn>{item}</TableRowColumn>); 
+    return (<Table.Row>{item}</Table.Row>); 
   }
 
   renderObject(data) {
     var cols = [];
     for (var id in data){
-      let item = <TableCell id={id} data={data} />
+      let item = <Table.Cell id={id} data={data} />
       cols.push(item);
     }
     return (
       <Table selectable={false}>
-        <TableBody displayRowCheckbox={false} >
-          <TableRow striped={true} rowNumber={1} >{cols}</TableRow>
-        </TableBody>
+        <Table.Body displayRowCheckbox={false} >
+          <Table.Row striped={true} rowNumber={1} >{cols}</Table.Row>
+        </Table.Body>
       </Table>);
   }
 
@@ -137,13 +128,7 @@ class MainContainer extends Component {
     const {app} = this.props;
     return (
       <div>
-        <AppBar
-          title={this.renderTitle()}
-          iconElementLeft={<div></div>}
-          iconElementRight={<div></div>}
-          titleStyle= {Styles.Title}
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-        />
+        {this.renderTitle()}
         {this.renderObject(this.props.app.jsonFiles)}
       </div>
     );
@@ -151,7 +136,11 @@ class MainContainer extends Component {
 
   renderTitle() {
     const {app} = this.props;
-    return (<span>{app.appInfo.title}</span>);
+    return (
+      <div style={Styles.Title}>
+        <Label size='Huge'>{app.appInfo.title}</Label>
+      </div>
+    );
   }
 }
 
