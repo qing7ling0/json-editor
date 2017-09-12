@@ -26,7 +26,14 @@ const config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-          title: 'Webpack-template'
+          title: 'Webpack-template',
+          filename: 'index.html',
+          chunks:['vendor', 'common', 'manifest', 'index']
+        }),
+        new HtmlWebpackPlugin({
+          title: 'Webpack-template',
+          filename: 'print.html',
+          chunks:['vendor', 'common', 'manifest', 'print']
         }),
         new webpack.optimize.CommonsChunkPlugin({
           names:['vendor']
