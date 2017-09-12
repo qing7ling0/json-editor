@@ -4,11 +4,12 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
-const config = {
+module.exports = {
     entry: {
         index:'./src/index.js',
-        print: './src/print.js'
+        // print: './src/print.js'
     },
     output: {
         filename: 'bundle.[name].js',
@@ -16,7 +17,8 @@ const config = {
     },
     devtool: 'source-map',
     devServer: {
-        contentBase:path.join(__dirname, 'public')
+        contentBase:path.join(__dirname, 'src'),
+        hot: true
     },
     module: {
         loaders: [
@@ -32,10 +34,9 @@ const config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-             title: 'Output Management'
+            title: 'webpack template'
         }),
-        new CleanWebpackPlugin(['public'])
+        new webpack.HotModuleReplacementPlugin(),
+        new UglifyJSPlugin()
     ]
-  };
-  
-  module.exports = config;
+};
