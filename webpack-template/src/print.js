@@ -1,6 +1,10 @@
 
-import _ from 'lodash';
+'use strict'
 
-console.log(
-  _.join(['Anotaaaher', 'moddddddddule', 'loaded!daaadd'], ' ')
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+ReactDOM.render(
+  <h1>Hello, print!</h1>,
+  document.getElementById('root')
 );

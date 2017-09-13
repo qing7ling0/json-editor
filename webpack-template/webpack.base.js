@@ -7,13 +7,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = {
     entry: {
       vendor:[
-        'lodash'
+        'react', 'react-dom'
       ],
       index:'./src/index.js',
       print: './src/print.js'
     },
     module: {
       loaders: [
+          {test: /\.js$/, loader:'babel-loader', exclude:/node-modules/},
           { test: /\.css$/, loader: 'style-loader!css-loader' },
           { 
             test:/\.(png|svg|jpe?g|gif)$/i, 
@@ -28,7 +29,8 @@ const config = {
         new HtmlWebpackPlugin({
           title: 'Webpack-template',
           filename: 'index.html',
-          chunks:['vendor', 'common', 'manifest', 'index']
+          chunks:['vendor', 'common', 'manifest', 'index'],
+          template: './src/template/index.ejs'
         }),
         new HtmlWebpackPlugin({
           title: 'Webpack-template',
