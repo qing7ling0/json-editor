@@ -3,7 +3,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import TextDemo from './textDemo'
+
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
+  <div>
+    <button onClick={()=> {
+      window.open('./textDemo.html')
+    }}>Demo</button>
+  </div>,
   document.getElementById('root')
 );

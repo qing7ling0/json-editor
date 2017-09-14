@@ -10,7 +10,7 @@ const config = {
         'react', 'react-dom'
       ],
       index:'./src/index.js',
-      print: './src/print.js'
+      textDemo: './src/textDemo.js'
     },
     module: {
       loaders: [
@@ -34,8 +34,9 @@ const config = {
         }),
         new HtmlWebpackPlugin({
           title: 'Webpack-template',
-          filename: 'print.html',
-          chunks:['vendor', 'common', 'manifest', 'print']
+          filename: 'textDemo.html',
+          chunks:['vendor', 'common', 'manifest', 'textDemo'],
+          template: './src/template/index.ejs'
         }),
         new webpack.optimize.CommonsChunkPlugin({
           names:['vendor']
